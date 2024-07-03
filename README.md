@@ -16,4 +16,5 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 ## Build and run docker container
 ### Added Dockerfile and nginx.conf files 
 Build: `docker build -t compare_ET`
+
 Run: `docker run -d -p 8080:80 compare_ET`
