@@ -1,0 +1,36 @@
+.search {
+  form {
+    padding: 1rem 0rem;
+    display: inline-block;
+    position: relative;
+  }
+
+  form input {
+    width: 20rem;
+    padding: 1rem 1rem 1rem 1rem;
+    border-radius: 50px;
+  }
+
+  form input:hover,
+  form input:focus,
+  form input:focus-within {
+    border: 2px solid #ff000000;
+    box-shadow: 0px 0px 10px red;
+    outline: none;
+  }
+
+  .clear-icon {
+    position: absolute;
+    left: 20rem;
+    top: 48%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 20px;
+    color: #000;
+    font-weight: 600;
+  }
+
+  .clear-icon:hover {
+    color: #b42424;
+  }
+}

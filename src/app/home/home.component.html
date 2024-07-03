@@ -1,0 +1,182 @@
+<div class="search">
+  <form [formGroup]="serachForm" (submit)="onSubmit()">
+      <input type="text" name="search" id="search" placeholder="Search for Tariff data" class="searchInput" formControlName="searchText">
+      @if (isClear) {
+          <span class="clear-icon" (click)="clearText()">&#x2715;</span>
+      }
+      @if (serachForm.controls['searchText'].invalid) {
+          <span> No Special characters!</span>
+      }
+  </form>
+</div>
+<div class="list">
+  <table class="etTable">
+    <thead>
+      <tr>
+        <td>Name</td>
+        <td class="sortColumn" (click)="sortTable('price')">
+          Price @if (electricityTariff.length > 0) {
+          <span>
+            @if (isAscendingDescending == '') {
+            <svg
+              width="24px"
+              height="24px"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g
+                id="SVGRepo_tracerCarrier"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></g>
+              <g id="SVGRepo_iconCarrier">
+                <path
+                  d="M16 18L16 16M16 6L20 10.125M16 6L12 10.125M16 6L16 13"
+                  stroke="#1C274C"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></path>
+                <path
+                  d="M8 18L12 13.875M8 18L4 13.875M8 18L8 11M8 6V8"
+                  stroke="#1C274C"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></path>
+              </g>
+            </svg>
+            } @else if (isAscendingDescending == 'Asc') {
+            <svg
+              width="24px"
+              height="24px"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g
+                id="SVGRepo_tracerCarrier"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></g>
+              <g id="SVGRepo_iconCarrier">
+                <path
+                  d="M4 16L13 16"
+                  stroke="#1C274C"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                ></path>
+                <path
+                  d="M6 11H13"
+                  stroke="#1C274C"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                ></path>
+                <path
+                  d="M8 6L13 6"
+                  stroke="#1C274C"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                ></path>
+                <path
+                  d="M17 4L17 20L20 16"
+                  stroke="#1C274C"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></path>
+              </g>
+            </svg>
+            } @else {
+            <svg
+              width="24px"
+              height="24px"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g
+                id="SVGRepo_tracerCarrier"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></g>
+              <g id="SVGRepo_iconCarrier">
+                <path
+                  d="M4 8H13"
+                  stroke="#1C274C"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                ></path>
+                <path
+                  d="M6 13H13"
+                  stroke="#1C274C"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                ></path>
+                <path
+                  d="M8 18H13"
+                  stroke="#1C274C"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                ></path>
+                <path
+                  d="M17 20V4L20 8"
+                  stroke="#1C274C"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></path>
+              </g>
+            </svg>
+            }
+          </span>
+          }
+        </td>
+        <td>Supplier</td>
+        <td>Description</td>
+        <td>Compare</td>
+      </tr>
+    </thead>
+    <tbody>
+      @for (tariff of electricityTariff; track tariff.id; let i = $index) {
+      <tr>
+        <td>{{ tariff.name | titlecase }}</td>
+        <td>{{ tariff.price | currency : "EUR" }}</td>
+        <td>{{ tariff.supplier }}</td>
+        <td>{{ tariff.description }}</td>
+        <td>
+          <button
+            class="btn-Compare"
+            [ngClass]="{
+              'btn-active': !tariff.isAddToCompare,
+              'btn-disable': tariff.isAddToCompare,
+              'cursor-NA':
+                compareTariffList.length == 3 && !tariff.isAddToCompare
+            }"
+            (click)="
+              (compareTariffList.length < 3 || tariff.isAddToCompare) &&
+                addToCompareList(tariff, i)
+            "
+          >
+            Add to Compare
+          </button>
+          <!-- !tariff.isAddToCompare - compareTariffList.length < 3
+                'cursor-NA' : compareTariffList.length == 3
+                
+             -->
+        </td>
+      </tr>
+      } @empty {
+      <tr>
+        <td colspan="5" class="textCenter">Currently unavilable.</td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>
+
+<p class="note"><strong>Note: </strong>A maximum of 3 tariffs can be compared at the same time.</p>

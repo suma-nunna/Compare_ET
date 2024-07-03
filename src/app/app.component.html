@@ -1,0 +1,12 @@
+<main class="header">
+  <h1>{{ title }}</h1>
+  <span>
+    @if (currentRoute == '/home' || currentRoute == '/') {
+    <button class="routeBtn" routerLink="/compare">Compare</button>
+    } @else if(currentRoute == '/compare') {
+    <button class="routeBtn" routerLink="/home">Home</button>
+    }
+  </span>
+</main>
+
+<router-outlet />
